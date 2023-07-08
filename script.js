@@ -5,9 +5,9 @@
 //of position. 
 const gameBoard = (() => {
     const board = 
-    ['','','',
-     '','','',
-     '','',''];
+    ['o','x','o',
+     'x','o','o',
+     'x','x','o'];
     
     const winningConditions = 
     [[0, 1, 2],
@@ -19,7 +19,16 @@ const gameBoard = (() => {
     [0, 4, 8],
     [2, 4, 6]];
 
-   // const checkWin 
+   const checkWin = (playerSign) => {
+        const placements = board.map((element, index) => {
+            if (element === playerSign){
+                return index;
+            }
+        }).filter(index => index !== undefined);
+        return winningConditions.some(condition => 
+            condition.every(index => placements.includes(index)));
+   }
+console.log(checkWin('o'));
 })();
 
 //This module will take care of creating the players
@@ -32,4 +41,5 @@ const gameController = (() => {
 const Player = (number, sign) => {
     return{number, sign};
 };
+
 
