@@ -43,7 +43,13 @@ const gameBoard = (() => {
             condition.every(index => placements.includes(index)));
    };
 
-   return{placeSign, checkWin};
+   const resetBoard = () => {
+        for (let i = 0; i < board.length; i++) {
+            board[i] = '';
+        }
+   };
+
+   return{placeSign, checkWin, resetBoard};
 })();
 
 //This module will take care of creating the players
@@ -55,6 +61,8 @@ const gameController = (() => {
     const playerTwo = Player(2, 'o');
 
     let currentPlayer = playerOne;
+    let gameOver = false;
+    let turnCount = 0;
 
     const changeTurn = () => {
         if(currentPlayer === playerOne){
@@ -66,25 +74,63 @@ const gameController = (() => {
 
     const playTurn = (index) => {
         gameBoard.placeSign(index, currentPlayer.sign);
-        changeTurn();
+        if(gameBoard.checkWin(currentPlayer.sign)){
+            gameBoard.resetBoard();
+            gameOver = true;
+            turnCount = 0;
+        }else{
+            changeTurn();
+            turnCount++;
+            console.log(turnCount);
+        }
+        
     };
 
     const getCurrentPlayerSign = () => {
         return currentPlayer.sign;
     }
+    const getGameOver = () => {
+        return gameOver;
+    }
+    const resetGameOver = () => {
+        gameOver = false;
+    }
+    const getTie = () => {
+        if(turnCount === 9 && gameBoard.checkWin(currentPlayer.sign) == false){
+            turnCount = 0;
+            return true;
+        }
+    }
 
    
-    return{getCurrentPlayerSign, playTurn};
+    return{getCurrentPlayerSign, playTurn, getGameOver, resetGameOver, getTie};
 })();
 
 //This module will update the html
 const displayController = (() => {
     const squares = document.querySelectorAll('.gameBoard button');
 
+    const resetSquares = () => {
+        squares.forEach(square => {
+            square.innerHTML = '';
+        });
+    };
+
     squares.forEach(square => {
         square.addEventListener('click', () => {
-            square.textContent = gameController.getCurrentPlayerSign();
-            gameController.playTurn(square.id);
+            if(square.textContent.trim() === ''){
+                square.textContent = gameController.getCurrentPlayerSign();
+                gameController.playTurn(square.id);
+            }
+            if(gameController.getGameOver()){
+                console.log('Player ' + gameController.getCurrentPlayerSign() + ' won!');
+                resetSquares();
+                gameController.resetGameOver();
+            }else if(gameController.getTie()){
+                console.log("It's a tie!");
+                resetSquares();
+                gameController.resetGameOver();
+            }
         });
     });
 })();
