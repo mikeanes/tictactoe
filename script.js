@@ -64,9 +64,9 @@ const gameController = (() => {
         }
     };
 
-    const playTurn = () => {
+    const playTurn = (index) => {
+        gameBoard.placeSign(index, currentPlayer.sign);
         changeTurn();
-        console.log(currentPlayer.number);
     };
 
     const getCurrentPlayerSign = () => {
@@ -84,7 +84,7 @@ const displayController = (() => {
     squares.forEach(square => {
         square.addEventListener('click', () => {
             square.textContent = gameController.getCurrentPlayerSign();
-            gameController.playTurn();
+            gameController.playTurn(square.id);
         });
     });
 })();
