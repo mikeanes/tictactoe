@@ -73,3 +73,22 @@ header{
 .gameBoard>button:hover{
     background-color: #a0bfe071;
 }
+.replay{
+    display: grid;
+    justify-content: center;
+}
+.replay>button{
+    height: 70px;
+    width: 170px;
+    font-size: 2rem;
+    border-radius: 5px;
+    background-color: #4A55A2;
+    color: #C5DFF8;
+    transition: transform 0.2s;
+}
+.replay>button:hover{
+    background-color: #4a54a2b5;
+}
+.replay>button:active{
+    transform: scale(0.9);
+}
