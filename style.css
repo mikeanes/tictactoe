@@ -12,6 +12,18 @@ abbr[title],dfn[title]{border-bottom:1px dotted;cursor:help}
 table{border-collapse:collapse;border-spacing:0}
 hr{display:block;height:1px;border:0;border-top:1px solid #ccc;margin:1em 0;padding:0}
 input,select{vertical-align:middle}
+button {
+    padding: 0;
+    margin: 0;
+    background: none;
+    border: none;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    outline: none;
+  }
+
+  
 
 
 :root{
@@ -39,16 +51,25 @@ header{
 }
 .boardContainer{
     display: grid;
-    place-items: center;
+    justify-content: center;
 }
 .gameBoard{
+    background-color: #7895CB;
+    border: 3px solid #7895CB;
     height: 350px;
     width: 350px;
     display: grid;
+    gap: 3px;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
 }
 .gameBoard>button{
-  
+    text-transform: uppercase;
+    font-size: 4rem;
+    color: #4A55A2;
+    background-color: #A0BFE0;
     font-family: "Inconsolata", serif;
+}
+.gameBoard>button:hover{
+    background-color: #a0bfe071;
 }
