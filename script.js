@@ -94,6 +94,7 @@ const gameController = (() => {
     }
     const resetGameOver = () => {
         gameOver = false;
+        turnCount = 0;
     }
     const getTie = () => {
         if(turnCount === 9 && gameBoard.checkWin(currentPlayer.sign) == false){
@@ -109,10 +110,23 @@ const gameController = (() => {
 //This module will update the html
 const displayController = (() => {
     const squares = document.querySelectorAll('.gameBoard button');
+    const replay = document.getElementById('replay');
 
     const resetSquares = () => {
         squares.forEach(square => {
             square.innerHTML = '';
+        });
+    };
+
+    const disableSquares = () => {
+        squares.forEach(square => {
+            square.disabled = true;
+        });
+    };
+
+    const enableSquares = () => {
+        squares.forEach(square => {
+            square.disabled = false;
         });
     };
 
@@ -124,15 +138,21 @@ const displayController = (() => {
             }
             if(gameController.getGameOver()){
                 console.log('Player ' + gameController.getCurrentPlayerSign() + ' won!');
-                resetSquares();
-                gameController.resetGameOver();
+                disableSquares();
+
             }else if(gameController.getTie()){
                 console.log("It's a tie!");
-                resetSquares();
-                gameController.resetGameOver();
+                disableSquares();
             }
         });
     });
+
+    replay.addEventListener('click', () => {
+        resetSquares();
+        gameController.resetGameOver();
+        gameBoard.resetBoard();
+        enableSquares();
+    })
 })();
 
 
